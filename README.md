@@ -1,4 +1,4 @@
-# gym_order_auto
+# gym_order
 > auto order gym in specific time
 
 > 自动运行预定健身房脚本，可以指定时间，日期，地点，并可选通过邮件通知
@@ -9,11 +9,13 @@
     git clone https://github.com/WSure00/gym_order.git
 ### 2.写入cookie，用来登录健身房网站。写入到./cookies.txt
     modify your cookie in ./cookies.txt
-### 3.在 gym_order.py文件中修改以下变量为你自己的：{mail_receiver},{smtpserver},{sender},{psw} (邮件通知可选，也可以不设置)
+### 3.添加你想预约的时间，在 gym_order.py 中修改变量 {target_time}
+    modify your expect time {target_time} in gym_order.py 
+### 4.可选操作: 在 gym_order.py文件中添加邮件通知变量的：{mail_receiver},{smtpserver},{sender},{psw} (邮件通知可选)
     set your own vars in gym_order.py: {mail_receiver},{smtpserver},{sender},{psw}
     
     ps:function send email is optional
-### 4.可选操作: 在Linux中可以设置crontab来自动定时运行脚本
+### 5.可选操作: 在Linux中可以设置crontab来自动定时运行脚本
     optional: use crontab to auto run the script:
 #### &emsp;     i.在 gym.sh 文件中修改{absolute_path}变量为绝对路径 
     change the {absolute_path} in gym.sh
