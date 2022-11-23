@@ -139,7 +139,6 @@ def get_course():
                 else:
                     print("[ERROR]: course is full !")
                     print("target date:{}, time:{}, status:{}".format(next_day(today),course_time,course_status))
-                    print("sending email to {}...".format(mail_receiver))
                     send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，课程已满！</p><p>预订日期: {} 时间: {} 状态: {}</p>".format(next_day(today),course_time,course_status))
                     return False
             else:
@@ -147,7 +146,6 @@ def get_course():
     else:
         print("[ERROR]: course not open!")
         print("target date: {}".format(next_day(today)))
-        print("sending email to {}...".format(mail_receiver))
         send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，未开课！</p><p>预订日期: {}</p>".format(next_day(today)))
         return False
     return True
@@ -195,23 +193,28 @@ def order_course(data):
 
 def send_email(subject,receiver,body):
 
-    smtpserver = 'smtp.xxx.com'
-    sender = ''
-    psw = ''
+    smtpserver = "" # smtp.xxx.com
+    sender = ""
+    psw = ""
     receiver = receiver
 
-    subject = subject
-    body = body
-    msg = MIMEText(body, 'html', 'utf-8')
-    msg['from'] = sender
-    msg['to'] = receiver
-    msg['subject'] = subject
+    if sender == "" or psw == "" or smtpserver == "" or receiver == "" :
+        print("[WARNING]: send_email function not enable")
+        return
+    else:
+        subject = subject
+        body = body
+        msg = MIMEText(body, 'html', 'utf-8')
+        msg['from'] = sender
+        msg['to'] = receiver
+        msg['subject'] = subject
 
-    smtp = smtplib.SMTP()
-    smtp.connect(host=smtpserver)
-    smtp.login(user=sender, password=psw)
-    smtp.sendmail(sender, receiver, msg.as_string())
-    smtp.quit()
+        print("sending email to {}...".format(receiver))
+        smtp = smtplib.SMTP()
+        smtp.connect(host=smtpserver)
+        smtp.login(user=sender, password=psw)
+        smtp.sendmail(sender, receiver, msg.as_string())
+        smtp.quit()
 
 
 def main():
@@ -224,19 +227,18 @@ def main():
                 time.sleep(1)
             else:
                 print("[ERROR]: get failed: get time > 5 mins")
-                print("sending email to {}...".format(mail_receiver))
                 send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，超时！</p><p>get timeout > s{}</p>".format(stop_duration))
                 sys.exit(1)
 
         if course_oder_url !="":
             data=get_order_data(course_oder_url)
             if order_course(data):
-                print("sending email to {}...".format(mail_receiver))
+                print("[SUCCESS]: order successfully")
+                print("date: {} time: {} base: {}".format(course_oder_date,course_oder_time,course_oder_base))
                 send_email("健身房预订成功",mail_receiver,"<p>健身房预订成功，课程日期: {} 时间: {} 地点: {}</p>".format(course_oder_date,course_oder_time,course_oder_base))
                 sys.exit(0)
             else:
                 print("[ERROR]: order failed!  order_course post failed")
-                print("sending email to {}...".format(mail_receiver))
                 send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，预订post请求失败！</p>")
                 sys.exit(1)
         else:
@@ -244,7 +246,6 @@ def main():
             sys.exit(1)
     else:
         print("[ERROR]: login failed!")
-        print("sending email to {}...".format(mail_receiver))
         send_email("健身房登录失败",mail_receiver,"<p>健身房登录失败，请重新登录</p>")
         sys.exit(1)
 
