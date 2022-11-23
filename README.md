@@ -1,4 +1,4 @@
-# gym_order
+# gym_order_auto
 > auto order gym in specific time
 
 > 自动运行预定健身房脚本，可以指定时间，日期，地点，并可选通过邮件通知
