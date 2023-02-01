@@ -19,7 +19,7 @@ course_oder_url=""
 course_oder_date=""
 course_oder_time=""
 course_oder_base="科技园B1 下沉广场"
-
+wechat_url="https://www.styd.cn/m/ad285710/user/order?is_shared=1"
 headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -36,7 +36,7 @@ else:
     target_time="18:00"
 # print(today.weekday(),target_time)
 
-mail_receiver=""
+mail_receiver="" #接收邮箱
 
 def check_stop(start):
     now=datetime.datetime.now()
@@ -139,15 +139,15 @@ def get_course():
                 else:
                     print("[ERROR]: course is full !")
                     print("target date:{}, time:{}, status:{}".format(next_day(today),course_time,course_status))
-                    send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，课程已满！</p><p>预订日期: {} 时间: {} 状态: {}</p>".format(next_day(today),course_time,course_status))
+                    send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，课程已满！</p><p>预订日期: {} </p><p>时间: {} </p><p>地点: {} </p><p>状态: {}</p><p><a href = {}>我的预约</a></p>".format(next_day(today),course_time,course_oder_base,course_status,wechat_url))
                     return False
             else:
                 continue
-    else:
-        print("[ERROR]: course not open!")
-        print("target date: {}".format(next_day(today)))
-        send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，未开课！</p><p>预订日期: {}</p>".format(next_day(today)))
-        return False
+    # else:
+    #     print("[ERROR]: course not open!")
+    #     print("target date: {}".format(next_day(today)))
+    #     send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，未开课！</p><p>预订日期: {}</p>".format(next_day(today)))
+    #     return False
     return True
 
 def get_order_data(course_url):
@@ -193,9 +193,9 @@ def order_course(data):
 
 def send_email(subject,receiver,body):
 
-    smtpserver = "" # smtp.xxx.com
-    sender = ""
-    psw = ""
+    smtpserver = "" # 邮件服务器地址 smtp.xxx.com
+    sender = "" #发送者邮箱
+    psw = "" # 发送者邮箱秘钥
     receiver = receiver
 
     if sender == "" or psw == "" or smtpserver == "" or receiver == "" :
@@ -227,7 +227,7 @@ def main():
                 time.sleep(1)
             else:
                 print("[ERROR]: get failed: get time > 5 mins")
-                send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，超时！</p><p>get timeout > s{}</p>".format(stop_duration))
+                send_email("健身房预订失败",mail_receiver,"<p>健身房预订失败，预定超时，未开课！</p><p>get timeout > {}s</p><p><a href = {}>我的预约</a></p>".format(stop_duration,wechat_url))
                 sys.exit(1)
 
         if course_oder_url !="":
@@ -235,7 +235,7 @@ def main():
             if order_course(data):
                 print("[SUCCESS]: order successfully")
                 print("date: {} time: {} base: {}".format(course_oder_date,course_oder_time,course_oder_base))
-                send_email("健身房预订成功",mail_receiver,"<p>健身房预订成功，课程日期: {} 时间: {} 地点: {}</p>".format(course_oder_date,course_oder_time,course_oder_base))
+                send_email("健身房预订成功",mail_receiver,"<p>健身房预订成功！</p><p>课程日期: {} </p><p>时间: {} </p><p>地点: {}</p><p><a href = {}>我的预约</a></p>".format(course_oder_date,course_oder_time,course_oder_base,wechat_url))
                 sys.exit(0)
             else:
                 print("[ERROR]: order failed!  order_course post failed")
