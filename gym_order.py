@@ -30,7 +30,7 @@ headers = {
 cookie="cookies.txt"
 stop_duration=300
 
-if today.weekday() == 2:
+if today.isoweekday() == 2:
     target_time="19:00"
 else:
     target_time="18:00"
