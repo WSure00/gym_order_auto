@@ -16,7 +16,7 @@
     
     ps:function send email is optional
  效果如图：
- <img src="https://raw.githubusercontent.com/WSure00/gym_order_auto/main/src/images/email_result.jpg" width="200px" alt="邮件效果图" align="middle"/>
+ <img src="https://raw.githubusercontent.com/WSure00/gym_order_auto/main/src/images/email_result.png" width="200px" alt="邮件效果图" align="middle"/>
     
 ### 5.可选操作: 在Linux中可以设置crontab来自动定时运行脚本
     optional: use crontab to auto run the script:
