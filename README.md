@@ -15,6 +15,9 @@
     set your own vars in gym_order.py: {mail_receiver},{smtpserver},{sender},{psw}
     
     ps:function send email is optional
+    效果如图：
+    ！[效果图](https://raw.githubusercontent.com/WSure00/gym_order_auto/main/src/images/email_result.jpg)
+    
 ### 5.可选操作: 在Linux中可以设置crontab来自动定时运行脚本
     optional: use crontab to auto run the script:
 #### &emsp;     i.在 bash gym.sh -i 查看提示 
