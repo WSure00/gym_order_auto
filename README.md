@@ -17,12 +17,12 @@
     ps:function send email is optional
 ### 5.可选操作: 在Linux中可以设置crontab来自动定时运行脚本
     optional: use crontab to auto run the script:
-#### &emsp;     i.在 gym.sh 文件中修改{absolute_path}变量为绝对路径 
-    change the {absolute_path} in gym.sh
+#### &emsp;     i.在 bash gym.sh -i 查看提示 
+
 #### &emsp;     ii.编辑crontab文件，输入定时命令
     crontab -e
 #### &emsp;     iii.以早上10:55，每周一、二、三、四、日为例，crontab命令格式如下
-    55 10 * * sun,mon,tue,wed,thu /bin/sh {absolute_path}/gym.sh # formation like this
-#### &emsp;     iv.重新加载crond服务，使crontab设置生效
+    55 10 * * sun,mon,tue,wed,thu /bin/bash {absolute_path}/gym.sh # formation like this
+#### &emsp;     iv.加载crond服务，使crontab设置生效
     service crond reload
     service crond restart
